@@ -1,0 +1,22 @@
+{
+  "name": "ngapi",
+  "version": "0.1.0",
+  "description": "An AngularJS module that makes your APIs working in the Angular Way.",
+  "main": "ngapi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:iamblue/ngApi.git"
+  },
+  "author": "iamblue",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iamblue/ngapi/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.4"
+  }
+}
