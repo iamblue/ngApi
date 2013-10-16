@@ -2,6 +2,38 @@ ngApi
 =========
 
 An AngularJS module that makes your APIs working in the Angular Way.
+You only write html tag , `DON'T NEED TO` write too many Ajax by javascript.
+
+Example:
+
+```html
+<input type="" ng-model="loginname"/>
+<input type="" ng-model="loginemail"/>
+<input type="" ng-model="loginpassword"/>
+
+<a ng-api="(loginname:string||loginemail:email||loginpassword:nospace)(post:/api/login)">send</a>
+```
+
+Description:
+
+* (loginname:string...):
+    
+1. `loginname` means it may fetch loginname ng-model's data, and `string` means you will validate loginname ng-model's data whether be a string.
+    
+2. loginname, loginemail , loginpassword will be sent by ajax data,like following:
+
+```javascript 
+    data:{
+        loginname:loginname,
+        loginemail:loginemail,
+        loginpassword:loginpassword
+    }
+```
+
+* (post:/api/login): `post` means it may post to `/api/login`.
+
+
+
 
 
 Install
@@ -10,6 +42,13 @@ Install
 ```bash
 bower install ngapi
 ```
+
+Add following into your Html `<head>`:
+
+```
+<script src="bower_components/ngapi/ngapi.js"></script>
+```
+
 
 
 Usage
@@ -21,8 +60,8 @@ Init:
 
 ```javascript
 angular.module('yourApp', ['ngapi'])
-    
 ```
+
 Setting API url: 
 
 * For example: http://127.0.0.1:3000
@@ -41,13 +80,6 @@ Setting API url:
 ```
 
 
-```html
-<input type="" ng-model="loginname"/>
-<input type="" ng-model="loginemail"/>
-<input type="" ng-model="loginpassword"/>
-
-<a ng-api="(loginname:string||loginemail:email||loginpassword:nospace)(post:/api/login)">send</a>
-```
   
 ### If you want to authentication login by RESTful architecture
 
