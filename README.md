@@ -86,6 +86,46 @@ Setting API url:
 });
 ```
 
+## `ng-api` style: ng-api = "(data)(api)" 
+
+1. data : (model_name : validate : validate_error_callback: sync_callback||.....)
+    
+    1. model_name:
+    2. validate
+    3. validate_error_callback
+    4. sync_callback
+
+2. api: 
+    
+* (request:path): 
+    request method: post , get ,restfullogin
+    
+    For example: `post:/api/getnavs`,`get:/api/getnavs` ,`restfullogin:/api/rest-auth/login` 
+* (routes.api.getnavs):
+    
+    if you use:
+
+```javascript
+.constant('apiurl',{
+  routes:'http://127.0.0.1:3000/youmeb/routes.json',
+  //you can make many routes , ngapi will combine it to a scope.
+});
+```
+And the json content like that:
+
+```javascript   
+{
+    api.getnavs: {
+        path: "/api/getnavs",
+        methods: [
+            "get"
+        ]
+    }
+}
+```
+You can use (routes.api.getnavs) , it will help you to retreive `get` and `/api/getnavs`
+
+
 Expand
 =======
 
