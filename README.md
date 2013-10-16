@@ -19,8 +19,17 @@ Description:
 * (loginname:string...):
     
 1. `loginname` means it may fetch loginname ng-model's data, and `string` means you will validate loginname ng-model's data whether be a string.
-    
-2. loginname, loginemail , loginpassword will be sent by ajax data,like following:
+
+    In this module, we only have four validate methods:
+        
+        1.email 
+        2.number 
+        3.string 
+        4.nospace
+        
+    If you want to expand validate methods, see that: [click me](https://github.com/iamblue/ngApi#Require ngapi and Inject the Services)
+
+2. `loginname`, `loginemail` , `loginpassword` will be sent by ajax data , look like following:
 
 ```javascript 
     data:{
@@ -31,8 +40,6 @@ Description:
 ```
 
 * (post:/api/login): `post` means it may post to `/api/login`.
-
-
 
 
 
@@ -79,6 +86,18 @@ Setting API url:
 });
 ```
 
+Expand
+=======
+
+### If you want to expand validate libery:
+
+```javascript
+.constant('apivalidate',{
+    date:function(v){
+        // your new validate method
+    }
+});
+```
 
   
 ### If you want to authentication login by RESTful architecture
