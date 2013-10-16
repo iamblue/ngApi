@@ -27,7 +27,7 @@ Description:
         3.string 
         4.nospace
         
-    If you want to expand validate methods, see that: [click me](https://github.com/iamblue/ngApi#Require ngapi and Inject the Services)
+    If you want to expand validate methods, see that: [click me](https://github.com/iamblue/ngApi#Expand)
 
 2. `loginname`, `loginemail` , `loginpassword` will be sent by ajax data , look like following:
 
