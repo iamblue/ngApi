@@ -52,7 +52,7 @@ bower install ngapi
 
 Add following into your Html `<head>`:
 
-```
+```html
 <script src="bower_components/ngapi/ngapi.js"></script>
 ```
 
