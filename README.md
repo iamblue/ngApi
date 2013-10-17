@@ -100,8 +100,9 @@ Setting API url:
 2. api: 
     
 * (request:path): 
-    request method: post , get ,restfullogin
-    For example: `post:/api/getnavs`,`get:/api/getnavs` ,`restfullogin:/api/rest-auth/login` ...etc
+    request method: `post` , `get` , `restfullogin`
+
+    For example: post:/api/getnavs , get:/api/getnavs , restfullogin:/api/rest-auth/login ...etc
 * (routes.api.getnavs):
     
     if you use:
