@@ -11,7 +11,7 @@ Example:
 <input type="" ng-model="loginemail"/>
 <input type="" ng-model="loginpassword"/>
 
-<a ng-api="(loginname:string||loginemail:email||loginpassword:nospace)(post:/api/login)">send</a>
+<a ng-api="(loginname:string||loginemail:email||loginpassword:nospace)(post:/api/login)" api-success="if you have or not" api-error="if you have or not">send</a>
 ```
 
 Description:
@@ -38,6 +38,9 @@ Description:
         loginpassword:loginpassword
     }
 ```
+3. More infomations: see following `ng-api` style: ng-api = "(data)(api)" 
+
+
 
 * (post:/api/login): `post` means it may post to `/api/login`.
 
@@ -88,19 +91,17 @@ Setting API url:
 
 ## `ng-api` style: ng-api = "(data)(api)" 
 
-1. data : (model_name : validate : validate_error_callback: sync_callback||.....)
+1. data : (model_name : validate : validate_error_callback||.....)
     
-    1. model_name:
+    1. model_name
     2. validate
-    3. validate_error_callback
-    4. sync_callback
+    3. validate_error_callback:
 
 2. api: 
     
 * (request:path): 
     request method: post , get ,restfullogin
-    
-    For example: `post:/api/getnavs`,`get:/api/getnavs` ,`restfullogin:/api/rest-auth/login` 
+    For example: `post:/api/getnavs`,`get:/api/getnavs` ,`restfullogin:/api/rest-auth/login` ...etc
 * (routes.api.getnavs):
     
     if you use:
@@ -124,6 +125,17 @@ And the json content like that:
 }
 ```
 You can use (routes.api.getnavs) , it will help you to retreive `get` and `/api/getnavs`
+
+
+## success callback / error callback:
+
+you can use `api-success` or `api-error` do it.
+
+```html
+<a ng-api="(loginname:string||loginemail:email||loginpassword:nospace)(post:/api/login)" api-success="your scope function" api-error="your scope function">send</a>
+    
+```
+
 
 
 Expand
@@ -161,7 +173,7 @@ On common authentication RESTful architecture, we need browser make a Cnonce con
 
 ###Reference:
 
-About RESTful Authentication, I sugguest you to read follow paper:
+About RESTful Authentication, I sugguest you to read following paper:
 
 * [Cryptographic nonce](http://en.wikipedia.org/wiki/Cryptographic_nonce)
 * [Digest access authentication](http://en.wikipedia.org/wiki/Digest_access_authentication)
