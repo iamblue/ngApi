@@ -18,9 +18,9 @@ Description:
 
 * (loginname:string...):
     
-1. `loginname` means it may fetch loginname ng-model's data, and `string` means you will validate loginname ng-model's data whether be a string.
+1. `loginname` means it will retreive loginname (ng-model's data), and `string` means you will validate loginname (ng-model's data) whether be a string.
 
-    In this module, we only have four validate methods:
+    In this module, we have four validate methods initailly:
         
         1.email 
         2.number 
@@ -42,7 +42,7 @@ Description:
 
 
 
-* (post:/api/login): `post` means it may post to `/api/login`.
+* (post:/api/login): `post` means it will post to `/api/login`.
 
 
 
@@ -80,7 +80,7 @@ Setting API url:
   .constant('apiurl','http://127.0.0.1:3000')
 ```
   
-* If your api server can sent all of your api routes (json), try that:
+* If you have all of your api routes (json) from your api server, try that:
 
 ```javascript
 .constant('apiurl',{
@@ -125,12 +125,12 @@ And the json content like that:
     }
 }
 ```
-You can use (routes.api.getnavs) , it will help you to retreive `get` and `/api/getnavs`
+You can use (routes.api.getnavs) , it will help you retreive `get` and `/api/getnavs` data.
 
 
 ## success callback / error callback:
 
-you can use `api-success` or `api-error` do it.
+You can use `api-success` or `api-error` do it.
 
 ```html
 <a ng-api="(loginname:string||loginemail:email||loginpassword:nospace)(post:/api/login)" api-success="your scope function" api-error="your scope function">send</a>
@@ -155,7 +155,7 @@ Expand
   
 ### If you want to authentication login by RESTful architecture
 
-On common authentication RESTful architecture, we need browser make a Cnonce constant and crypo your `"password code"+snonce( nonce form server)+c_nonce` and send it back to your server.
+On a common REST-authentication architecture, we need browser make a Cnonce constant and crypo your `"password code"+snonce( nonce form server)+c_nonce` and send it back your server.
 
 * Step1: Make a Cnonce : 
 
@@ -174,7 +174,7 @@ On common authentication RESTful architecture, we need browser make a Cnonce con
 
 ###Reference:
 
-About RESTful Authentication, I sugguest you to read following paper:
+About REST-Authentication, I sugguest you to read following paper:
 
 * [Cryptographic nonce](http://en.wikipedia.org/wiki/Cryptographic_nonce)
 * [Digest access authentication](http://en.wikipedia.org/wiki/Digest_access_authentication)
