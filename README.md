@@ -14,7 +14,7 @@ Example:
 <a ng-api="(loginname:string||loginemail:email||loginpassword:nospace)(post:/api/login)" api-success="if you have or not" api-error="if you have or not">send</a>
 ```
 
-Description:
+##Description
 
 * (loginname:string...):
     
@@ -27,7 +27,7 @@ Description:
         3.string 
         4.nospace
         
-    If you want to expand validate methods, see following `Expand` -> `If you want to expand validate libery` topic .
+    If you want to expand validate methods, [see](https://github.com/iamblue/ngApi#if-you-want-to-expand-validate-libery)
 
 2. `loginname`, `loginemail` , `loginpassword` will be sent by ajax data , look like following:
 
@@ -38,7 +38,7 @@ Description:
         loginpassword:loginpassword
     }
 ```
-3. More infomations: [see]('https://github.com/iamblue/ngApi#ng-api-style-ng-api--dataapi')
+3. More infomations: [see](https://github.com/iamblue/ngApi#ng-api-style-ng-api--dataapi)
 
 
 
