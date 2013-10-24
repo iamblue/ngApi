@@ -38,7 +38,7 @@ Description:
         loginpassword:loginpassword
     }
 ```
-3. More infomations: see following `ng-api` style: ng-api = "(data)(api)" 
+3. More infomations: [see]('https://github.com/iamblue/ngApi#ng-api-style-ng-api--dataapi')
 
 
 
