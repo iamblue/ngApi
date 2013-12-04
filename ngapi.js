@@ -1,7 +1,7 @@
 'use strict';
 angular.module('ngapi',[])
 	.factory('apiroutes',['apiurl','$http',function(apiurl, $http){
-        if(!!apiurl){
+        if(typeof apiurl == 'string'){
         	return apiurl;
         }else{
         	var routes = {};
@@ -57,7 +57,7 @@ angular.module('ngapi',[])
 				}else{
 					return false;
 				}
-        	}
+      }
 		}
 	})
 	.directive('ngApi',['apiroutes','apicrypto','apicnonce', 'apitools', 'apivalidate', '$http',function(apiroutes, apicrypto, apicnonce, apitools, apivalidate, $http){
@@ -74,7 +74,9 @@ angular.module('ngapi',[])
 
         		elem.bind('click',function(){
         			if(!_d.test(_data[1]) && !_data[1].match(_dd) && !_data[2].match(_dd)){
+	        			console.log(_data)
 	        			var _tmpdata = apitools.reg.init(_data[1]);
+
 	        			var _tmpapi = apitools.reg.init(_data[2]);
 	        			if(!!_data[3]){
 	        				var _tmpvalidateerr = apitools.reg.init(_data[3]);	
@@ -98,7 +100,6 @@ angular.module('ngapi',[])
 	        					}
 	        				}
 	        			});
-
 	        			var _m = apitools.reg.specColon(_tmpapi[0])[0] || apiroutes[_tmpapi[0].split('.')[0]][_tmpapi[0].replace(_tmpapi[0].split('.')[0]+'.','')].methods[0];
 	        			_m = _m.toLowerCase();
 	        			
@@ -111,9 +112,9 @@ angular.module('ngapi',[])
 	        				case 'get':
 	        					if(_ckapi.test(_tmpapi)){
 	        						var _sd = {};
-									angular.forEach(_tmpdata,function(v,i,o){
-										_sd[v.split(':')[0]]=_this[v.split(':')[0]]
-									});
+											angular.forEach(_tmpdata,function(v,i,o){
+												_sd[v.split(':')[0]]=_this[v.split(':')[0]]
+											});
 	        						$http.get(apiroutes+apitools.reg.specColon(_tmpapi[0])[1],{params: _sd})
 	        						.success(function(data){
 	        							if(!!_this[_success]){
@@ -148,8 +149,22 @@ angular.module('ngapi',[])
 	        					}
 								break;
 							case 'post':
-								var _url = apiroutes+apitools.reg.specColon(_tmpapi[0])[1];
-								var _sd = {};
+								var _url,_sd;
+								if (typeof apiroutes == 'string'){
+									_url= apiroutes+apitools.reg.specColon(_tmpapi[0])[1];
+								}else{
+									var _api,_tmpa,_tmps;
+									_api = _tmpapi[0].split('.');
+									_tmpa = [];
+									_tmps = ''
+									for (var i = 1; i <= _api.length - 1; i++) {
+										_tmpa.push(_api[i]);
+									};
+									_tmps = _tmpa.join()
+									_tmps = _tmps.replace(/\,/g,'.')
+									_url= apiroutes.routes.url+apiroutes[_api[0]][_tmps].path
+								}
+								_sd = {};
 								angular.forEach(_tmpdata,function(v,i,o){
 									_sd[v.split(':')[0]]=_this[v.split(':')[0]]
 								});
@@ -159,29 +174,28 @@ angular.module('ngapi',[])
         							}else{
         								return ;
         							};
-							    });
+							  });
 								break;
 							case 'restfullogin':
 								var _nonce = apitools.reg.specColon(_tmpapi[0])[1];
 								var _login = _tmpapi[1];
 								$http.get(apiroutes+_nonce).success(function (data) {
-							      	var password = apicrypto(_this.password);
-							      	var hash = apicrypto([password, data.data.nonce, apicnonce].sort().join(''));
-								    $http.post(apiroutes+_login,{
-								      	login: _this.user,
-								      	cnonce: apicnonce, 
-								      	hash: hash, 
-								      	key: data.data.key
-								    }).success(function(data){
-								    	//console.log(data);
-								    	if(!!_this[_success]){
-	        								return _this[_success](data);	
-	        							}else{
-	        								return ;
-	        							};
-								    });
+							    var password = apicrypto(_this.password);
+							    var hash = apicrypto([password, data.data.nonce, apicnonce].sort().join(''));
+							    $http.post(apiroutes+_login,{
+							      	login: _this.user,
+							      	cnonce: apicnonce, 
+							      	hash: hash, 
+							      	key: data.data.key
+							    }).success(function(data){
+							    	if(!!_this[_success]){
+        							return _this[_success](data);	
+        						}else{
+        							return ;
+        						};
 							    });
-							    break;
+							  });
+							  break;
 						};
 	        		}else{
 	        			console.log('Your ng-api value is wrong! must be=>(data)(method:apiurl)')
