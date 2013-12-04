@@ -1,8 +1,8 @@
 {
     "name": "ngapi",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "main": "./ngapi.js",
     "dependencies": {
-        "angular": ">=1.0.8"
+        "angular": ">=1.2.3"
     }
 }

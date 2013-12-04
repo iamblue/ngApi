@@ -1,6 +1,6 @@
 {
   "name": "ngapi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An AngularJS module that makes your APIs working in the Angular Way.",
   "main": "ngapi.js",
   "scripts": {
