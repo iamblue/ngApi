@@ -104,6 +104,19 @@ angular.module('ngapi',[])
 						});
 						var _success = attr.apiSuccess;
 						var _error = attr.apiError;
+						var $_http = function (method,url,data){
+							$http[method](url,data)
+							.success(function(d,s,h,c){
+								if(!!_this[_success]){
+									return _this[_success].apply(_this[_success],[d,s,h,c]);
+								}
+							})
+							.error(function(d,s,h,c){
+								if(!!_this[_error]){
+									return _this[_error].apply(_this[_error],[d,s,h,c]);	
+								}
+							});
+						}
 						var passcheck =function (){
 							var _m = apitools.reg.specColon(_tmpapi[0])[0] || apiroutes[_tmpapi[0].split('.')[0]][_tmpapi[0].replace(_tmpapi[0].split('.')[0]+'.','')].methods[0];
 							_m = _m.toLowerCase();
@@ -117,37 +130,9 @@ angular.module('ngapi',[])
 										angular.forEach(_tmpdata,function(v,i,o){
 											_sd[v.split(':')[0]]=_this[v.split(':')[0]]
 										});
-										$http.get(apiroutes+apitools.reg.specColon(_tmpapi[0])[1],{params: _sd})
-										.success(function(data){
-											if(!!_this[_success]){
-												return _this[_success](data);	
-											}else{
-												return ;
-											};
-										})
-										.error(function(data){
-											if(!!_this[_error]){
-												return _this[_error](data);	
-											}else{
-												return ;
-											};
-										})	
+										return $_http('get',apiroutes+apitools.reg.specColon(_tmpapi[0])[1],{params: _sd});	
 									}else{
-										$http.get(apiroutes[_tmpapi[0].split('.')[0]].url+apiroutes[_tmpapi[0].split('.')[0]][_tmpapi[0].replace(_tmpapi[0].split('.')[0]+'.','')].path)
-										.success(function(data){
-											if(!!_this[_success]){
-												return _this[_success](data);	
-											}else{
-												return ;
-											};
-										})
-										.error(function(data){
-											if(!!_this[_error]){
-												return _this[_error](data);	
-											}else{
-												return ;
-											};
-										})
+										return $_http('get',apiroutes[_tmpapi[0].split('.')[0]].url+apiroutes[_tmpapi[0].split('.')[0]][_tmpapi[0].replace(_tmpapi[0].split('.')[0]+'.','')].path,'');	
 									}
 									break;
 								case 'post':
@@ -169,13 +154,7 @@ angular.module('ngapi',[])
 									angular.forEach(_tmpdata,function(v,i,o){
 										_sd[v.split(':')[0]]=_this[v.split(':')[0]];
 									});
-									$http.post(_url,_sd).success(function(data){	
-										if(!!_this[_success]){
-												return _this[_success](data);	
-											}else{
-												return ;
-											};
-								  });
+									return $_http('post',_url,_sd);	
 									break;
 								case 'restfullogin':
 									var _nonce = apitools.reg.specColon(_tmpapi[0])[1];
@@ -183,22 +162,17 @@ angular.module('ngapi',[])
 									$http.get(apiroutes+_nonce).success(function (data) {
 										var password = apicrypto(_this.password);
 										var hash = apicrypto([password, data.data.nonce, apicnonce].sort().join(''));
-										$http.post(apiroutes+_login,{
-											login: _this.user,
-											cnonce: apicnonce, 
-											hash: hash, 
-											key: data.data.key
-										}).success(function(data){
-											if(!!_this[_success]){
-												return _this[_success](data);	
-											}else{
-												return ;
-											};
-										});
+										return 
+											$http('post',apiroutes+_login,{
+												login: _this.user,
+												cnonce: apicnonce, 
+												hash: hash, 
+												key: data.data.key
+											});
 									});
 								break;
 							};
-						}// final function	
+						}// final function
 						if (status.length==0){
 							return passcheck();
 						}
@@ -209,5 +183,3 @@ angular.module('ngapi',[])
 			},
 		};
 	}]);
-
-		
