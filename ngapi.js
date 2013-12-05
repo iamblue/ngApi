@@ -1,11 +1,11 @@
 'use strict';
 angular.module('ngapi',[])
-	.factory('apiroutes',['apiurl','$http',function(apiurl, $http){
-		if(typeof apiurl == 'string'){
-			return apiurl;
-		}else{
+	.factory('apiroutes',['api','$http',function(api, $http){
+		if(typeof api.url == 'string'){
+			return api.url;
+		}else if (typeof api.url == 'object'){
 			var routes = {};
-			angular.forEach(apiurl,function(v,i,o){
+			angular.forEach(api.url,function(v,i,o){
 				var h = /http:/;
 				$http.get(v).success(function(data){
 					routes[i] = data;
@@ -57,11 +57,16 @@ angular.module('ngapi',[])
 			}
 		}
 	})
-	.directive('ngApi',['apiroutes','apicrypto','apicnonce', 'apitools', 'apivalidate', '$http',function(apiroutes, apicrypto, apicnonce, apitools, apivalidate, $http){
+	.directive('ngApi',['apiroutes', 'apitools', 'api', '$http',function(apiroutes, apitools, api, $http){
 		return {
 			replace: true,
 			restrict: "AE",
 			link: function (scope, elem, attr) {
+				console.log(api);
+				var apicnonce = api.cnonce || '';
+				var apicrypto = api.crypto || '';
+				var apivalidate = api.validate || {};
+				
 				var _this = scope;
 				var _s = attr.ngApi;
 				_s = _s.replace(' ','');
