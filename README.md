@@ -2,7 +2,7 @@ ngApi
 =========
 
 An AngularJS module that makes your APIs working in the Angular Way.
-You only write html tag , `DON'T NEED TO` write too many Ajax by javascript.
+You only write html tag , `DON'T NEED TO` write too many Ajax by javascript in your angualr controller!!!!! lol
 
 Example:
 
