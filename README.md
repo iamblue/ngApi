@@ -2,7 +2,7 @@ ngApi
 =========
 
 An AngularJS module that makes your APIs working in the Angular Way.
-You only write html tag , `DON'T NEED TO` write too many Ajax by javascript.
+You only write html tag , `DON'T NEED TO` write too many Ajax by javascript in your angualr controller!!!!! lol
 
 Example:
 
@@ -72,30 +72,66 @@ Init:
 angular.module('yourApp', ['ngapi'])
 ```
 
-Setting API url: 
+### Setting API constant:
+
+__For example :__
+
+```javascript 
+.constant('api', {
+    url: {  // must write it!
+        routes: 'http://localhost:3000/youmeb/routes.json'
+    },
+    validate: {  // If you have, write it.
+        //Input your setting validate way
+    },
+    crypto: function(){}, // If you have, write it. 
+    cnonce: 'cnonce', // If you have, write it.
+})
+```
+
+__Explain above api :__
+
+`url`:
 
 * For example: http://127.0.0.1:3000
   
 ```javascript 
-  .constant('apiurl','http://127.0.0.1:3000')
+.constant('api',{
+    //....
+    url: 'http://127.0.0.1:3000'
+})
 ```
   
 * If you have all of your api routes (json) from your api server, try that:
 
 ```javascript
-.constant('apiurl',{
-  routes:'http://127.0.0.1:3000/youmeb/routes.json',
-  //you can make many routes , ngapi will combine it to a scope.
+.constant('api',{
+    //...
+    url: {
+        routes:'http://127.0.0.1:3000/youmeb/routes.json'
+        //you can add many routes , ngapi will combine it to a scope.
+    }
 });
 ```
+==> more info: [see](https://github.com/iamblue/ngApi#ng-api-style-ng-api--dataapi)
 
-## `ng-api` style: ng-api = "(data)(api)" 
+`validate`:
 
-1. data : (model_name : validate : validate_error_callback||.....)
+==> more info: [see](https://github.com/iamblue/ngApi#expand)
+
+`crypto` && `cnonce`:
+
+==> more info: [see](https://github.com/iamblue/ngApi#if-you-want-to-authentication-login-by-restful-architecture)
+
+
+
+
+### Setting `ng-api` style in yout HTML : ng-api = "(data)(api)" 
+
+1. data : (model_name : validate ||.....)
     
     1. model_name
     2. validate
-    3. validate_error_callback:
 
 2. api: 
     
@@ -108,9 +144,12 @@ Setting API url:
     if you use:
 
 ```javascript
-.constant('apiurl',{
-  routes:'http://127.0.0.1:3000/youmeb/routes.json',
-  //you can make many routes , ngapi will combine it to a scope.
+.constant('api',{
+    //...
+    url: {
+        routes:'http://127.0.0.1:3000/youmeb/routes.json'
+        //you can add many routes , ngapi will combine it to a scope.
+    }
 });
 ```
 And the json content like that:
@@ -128,15 +167,14 @@ And the json content like that:
 You can use (routes.api.getnavs) , it will help you retreive `get` and `/api/getnavs` data.
 
 
-## success callback / error callback:
+## After sending api , it response success callback / error callback:
 
-You can use `api-success` or `api-error` do it.
+You can use `api-success` or `api-error` to callback it.
 
 ```html
 <a ng-api="(loginname:string||loginemail:email||loginpassword:nospace)(post:/api/login)" api-success="your scope function" api-error="your scope function">send</a>
     
 ```
-
 
 
 Expand
@@ -145,9 +183,13 @@ Expand
 ### If you want to expand validate libery:
 
 ```javascript
-.constant('apivalidate',{
-    date:function(v){
+.constant('api',{
+    //....
+    validate:{
+        date: function(){
         // your new validate method
+        }
+        //....
     }
 });
 ```
@@ -160,16 +202,22 @@ On a common REST-authentication architecture, we need browser make a Cnonce cons
 * Step1: Make a Cnonce : 
 
 ```javascript
-.constant('apicnonce','cnonce')  // 'cnonce' can include a function which will make a new cnonce code 
+.constant('api',{
+    //....
+    cnonce:'cnonce',
+})  // 'cnonce' can include a function which will make a new cnonce code 
 ```
 
 * Step2: Add a apicrypto algo:
 
 ```javascript 
-.constant('apicrypto',function(){
-    //your crypto algo, for example :sha1,md5 ... etc
+.constant('api',{
+    //....
+    cnonce: 'cnonce',
+    crypto: function(){
+        //your crypto algo, for example :sha1,md5 ... etc
+    }
 })
-
 ```
 
 ###Reference:
