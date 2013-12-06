@@ -103,6 +103,11 @@ angular.module('ngapi',[])
 			get:(function(){
 				return{
 					url:(function(type,api){
+						if (typeof api == 'string'){
+							var _a = [];
+							_a.push(api);
+							api = _a;
+						}
 						switch(type){
 							case 'string':
 								return this.apiroutes+this.reg.specColon(api[0])[1]
@@ -117,13 +122,36 @@ angular.module('ngapi',[])
 					}).bind(this)
 				}
 			}).bind(this),
-			sentapi:function(methods,api,data,success,err){
+			getnonceapi:(function(api){
+				return this.reg.specColon(api[0])[1];
+			}).bind(this),
+
+			restfullogin:function(methods,api,data,success,err,n,c){
+				var _this = this.scope;
+				var _nonce = this.getnonceapi(api);
+				var _login = api[1];
+				var _success = function(data){
+					var password = n(_this.password);
+					var hash = n([password, data.data.nonce, c].sort().join(''));
+					return 
+						this.http('post',apiroutes+_login,{
+							login: _this.user,
+							cnonce: c, 
+							hash: hash, 
+							key: data.data.key
+						},_this[success],_this[err]);
+				}
+				this.http('post', this.apiroutes+_nonce, '', _success , _this[err]);
+			},
+			sentapi:function(methods,api,data,success,err,n,c){
 				var get = this.get();
 				var _this = this.scope;
 				var $_http = this.http;
+				if (methods == 'restfullogin') return this.restfullogin(methods,api,data,success,err,n,c);
 				switch (methods){
 						case 'get':
 							if(this.typeofapi == 'string'){
+
 								var url = get.url('string',api);
 								var _sd = {};
 								angular.forEach(data,function(v,i,o){
@@ -147,21 +175,6 @@ angular.module('ngapi',[])
 							});
 							return $_http('post', url, _sd, _this[success], _this[err]);
 							break;
-						case 'restfullogin':
-							// var _nonce = this.reg.specColon(api[0])[1];
-							// var _login = api[1];
-							// $http.get(apiroutes+_nonce).success(function (data) {
-							// 	var password = apicrypto(_this.password);
-							// 	var hash = apicrypto([password, data.data.nonce, apicnonce].sort().join(''));
-							// 	return 
-							// 		$_http('post',apiroutes+_login,{
-							// 			login: _this.user,
-							// 			cnonce: apicnonce, 
-							// 			hash: hash, 
-							// 			key: data.data.key
-							// 		});
-							// });
-						break;
 					};
 			},
 			//if type has some error
@@ -188,27 +201,26 @@ angular.module('ngapi',[])
 				var _d = /(\(.*\))(\(.*\))/; //()()
 				var _dd = /(^\(\(|^\(\w+\(.*)/; // (())
 				
-				var _data = _s.match(_d);
+				var _data = _s.match(_d) || '';
 
 				var s = apitools.api; 
 				apitools.apiroutes = apiroutes;
 				var _this =scope;
 				elem.bind('click',function(){
 					s.scope = _this;
-					if(!_d.test(_data[1]) && !_data[1].match(_dd) && !_data[2].match(_dd)){
+					if(_data != '' && !_d.test(_data[1]) && !_data[1].match(_dd) && !_data[2].match(_dd)){
 						//(data...)(api...)
 						var data = apitools.reg.init(_data[1]);//show data
 						var api = apitools.reg.init(_data[2]); //show api
 						s.validatedata(data,_this,apivalidate);
 						var methods = s.passcheck(api);
 						if (status.length==0){
-							return s.sentapi(methods, api, data, attr.apiSuccess, attr.apiError);
+							return s.sentapi(methods, api, data, attr.apiSuccess, attr.apiError,apicrypto,apicnonce);
 						};
 					}else{
-						if(){
-							
-						}
-						else{
+						if(_s){
+							s.sentapi('get',_s,'',attr.apiSuccess, attr.apiError);
+						}else{
 							return s.error.typeError();
 						}
 					};
