@@ -18,5 +18,8 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-uglify": "~0.2.4"
+  },
+  "dependencies": {
+    "findup-sync": "~0.1.2"
   }
 }
