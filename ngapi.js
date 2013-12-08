@@ -147,7 +147,10 @@ angular.module('ngapi',[])
 				var get = this.get();
 				var _this = this.scope;
 				var $_http = this.http;
+				err = err.replace(/()/,'');
+				success= success.replace(/()/,'');
 				if (methods == 'restfullogin') return this.restfullogin(methods,api,data,success,err,n,c);
+
 				switch (methods){
 						case 'get':
 							if(this.typeofapi == 'string'){
