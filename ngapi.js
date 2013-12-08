@@ -56,6 +56,10 @@ angular.module('ngapi',[])
 				}else{
 					return false;
 				}
+			},
+			detectcallback :function(v){
+				var _reg = /\w+((\w+\,)+)/
+				return _reg.test(v)
 			}
 		},		
 		this.api = {
@@ -147,8 +151,10 @@ angular.module('ngapi',[])
 				var get = this.get();
 				var _this = this.scope;
 				var $_http = this.http;
+
 				err = err.replace(/()/,'');
 				success= success.replace(/()/,'');
+
 				if (methods == 'restfullogin') return this.restfullogin(methods,api,data,success,err,n,c);
 
 				switch (methods){
